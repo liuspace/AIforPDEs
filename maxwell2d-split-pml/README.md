@@ -12,7 +12,10 @@ This code reproduces the 2D example (Section 3.2) of the paper:
 
 > X. Liu, L. Li, G. Moss, and S. Langdon, "Physics-Informed Neural Networks for
 > the Time-Domain Maxwell Equations with Split-Field Perfectly Matched Layers,"
-> [arXiv:2606.25323](https://arxiv.org/abs/2606.25323), 2026.
+> in *2026 IEEE International Symposium on Antennas and Propagation and USNC-URSI
+> Radio Science Meeting (AP-S/USNC-URSI)*, Detroit, MI, USA, 2026, pp. 961–964,
+> doi: [10.1109/AP-S/USNC-URSI60190.2026.11675526](https://doi.org/10.1109/AP-S/USNC-URSI60190.2026.11675526).
+> Preprint: [arXiv:2606.25323](https://arxiv.org/abs/2606.25323).
 
 ## Problem setup
 
@@ -100,12 +103,13 @@ script. Training uses 100k collocation points, so a GPU is recommended.
 ## Citation
 
 ```bibtex
-@misc{liu2026pinnpml,
-  title         = {Physics-Informed Neural Networks for the Time-Domain Maxwell Equations with Split-Field Perfectly Matched Layers},
-  author        = {Liu, Xiaodong and Li, Lingquan and Moss, Gregory and Langdon, Scott},
-  year          = {2026},
-  eprint        = {2606.25323},
-  archivePrefix = {arXiv},
-  primaryClass  = {math-ph}
+@inproceedings{liu2026pinnpml,
+  title     = {Physics-Informed Neural Networks for the Time-Domain Maxwell Equations with Split-Field Perfectly Matched Layers},
+  author    = {Liu, Xiaodong and Li, Lingquan and Moss, Gregory and Langdon, Scott},
+  booktitle = {2026 IEEE International Symposium on Antennas and Propagation and USNC-URSI Radio Science Meeting (AP-S/USNC-URSI)},
+  address   = {Detroit, MI, USA},
+  pages     = {961--964},
+  year      = {2026},
+  doi       = {10.1109/AP-S/USNC-URSI60190.2026.11675526}
 }
 ```
