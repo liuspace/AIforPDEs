@@ -8,6 +8,12 @@ Bérenger split-field perfectly matched layer (PML). It is built with
 The network is not trained on simulation data. It learns the field only from the
 PDE residual and the boundary and initial conditions.
 
+This code reproduces the 2D example (Section 3.2) of the paper:
+
+> X. Liu, L. Li, G. Moss, and S. Langdon, "Physics-Informed Neural Networks for
+> the Time-Domain Maxwell Equations with Split-Field Perfectly Matched Layers,"
+> [arXiv:2606.25323](https://arxiv.org/abs/2606.25323), 2026.
+
 ## Problem setup
 
 - A Gaussian Ez pulse starts at the center of the unit square and radiates outward.
@@ -57,6 +63,21 @@ conductivity is zero where the pulse starts.
 - Fully connected network, 3 → 4 × 80 → 4, with `sin` activation.
 - 10,000 Adam iterations (lr 2e-3), then L-BFGS until convergence.
 
+## Results
+
+The figures are from the paper. At $t = 0.2$, the PINN solution agrees closely with
+an FDTD reference solution computed with $\Delta x = \Delta y = 0.00125$. The small
+difference near the edges is expected: the FDTD reference was run on a larger
+domain without a PML.
+
+![Ez at t = 0.2 and comparison with FDTD along x = 0.5](figures/pinn_vs_fdtd_t0.2.png)
+*Left: $E_z$ at $t = 0.2$. Right: PINN vs. FDTD along $x = 0.5$ at $t = 0.2$.*
+
+As the pulse reaches the PML, the layer absorbs it:
+
+![Ez at t = 0.4 and t = 0.56](figures/ez_t0.4_t0.56.png)
+*$E_z$ at $t = 0.4$ (left) and $t = 0.56$ (right).*
+
 ## Running
 
 ```bash
@@ -68,15 +89,23 @@ The script writes $E_z$ snapshots at 21 times as `slice_XXXX.npz` (arrays `x`,
 `y`, `E`, `t`) and `slice_XXXX.png`. All settings are constants at the top of the
 script. Training uses 100k collocation points, so a GPU is recommended.
 
-## Limitations and next steps
+## Next steps
 
-- **PML strength.** With $\sigma_{\max} = 10$, the theoretical round-trip
-  reflection at normal incidence is $R = e^{-2\sigma_{\max} d/(n+1)} \approx 0.37$.
-  Lowering it to about $10^{-3}$ needs $\sigma_{\max} \approx 70$. That makes the
-  PDE stiffer and the PINN harder to train. Exploring this trade-off, for example
-  with adaptive weights or by ramping $\sigma$ up gradually, is the next step.
-- **Validation.** Compare the PINN solution against a finite-difference
-  time-domain (FDTD) reference solved on the same grid.
-- **Long-time training.** Plain PINNs often have trouble keeping wave propagation
-  accurate over long times. Causal training or time-marching windows could
-  extend the simulated time.
+- **Temporally discretized PINNs**, to scale to higher-dimensional problems and
+  longer simulation times.
+- **Stronger PML absorption.** Absorption grows with $\sigma_{\max}$ and the layer
+  thickness. Larger conductivities make the PDE stiffer, though, and harder for a
+  PINN to train. Balancing the two matters for longer simulations.
+
+## Citation
+
+```bibtex
+@misc{liu2026pinnpml,
+  title         = {Physics-Informed Neural Networks for the Time-Domain Maxwell Equations with Split-Field Perfectly Matched Layers},
+  author        = {Liu, Xiaodong and Li, Lingquan and Moss, Gregory and Langdon, Scott},
+  year          = {2026},
+  eprint        = {2606.25323},
+  archivePrefix = {arXiv},
+  primaryClass  = {math-ph}
+}
+```
