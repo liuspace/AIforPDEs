@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+
+# Generated outputs
+slice_*.npz
+slice_*.png

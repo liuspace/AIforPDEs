@@ -1,0 +1,4 @@
+deepxde>=1.14
+torch>=2.0
+numpy
+matplotlib
